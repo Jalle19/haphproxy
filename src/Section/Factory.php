@@ -16,7 +16,7 @@ class Factory
 	 *
 	 * @return AbstractSection|null
 	 */
-	public static function factory($line)
+	public static function makeFactory($line)
 	{
 		$words     = explode(' ', $line);
 		$firstWord = $words[0];
@@ -24,19 +24,14 @@ class Factory
 		switch ($firstWord) {
 			case Sections::SECTION_GLOBAL:
 				return new GlobalSection();
-				break;
 			case Sections::SECTION_DEFAULTS:
 				return new DefaultSection();
-				break;
 			case Sections::SECTION_FRONTEND:
 				return new FrontendSection($line);
-				break;
 			case Sections::SECTION_BACKEND:
 				return new BackendSection($line);
-				break;
 			case Sections::SECTION_LISTEN:
 				return new ListenSection($line);
-				break;
 		}
 
 		return null;

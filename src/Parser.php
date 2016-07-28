@@ -57,7 +57,7 @@ class Parser
 
 		foreach ($this->readConfigurationLines() as $line) {
 			// Check for section changes
-			$newSection = Factory::factory($line);
+			$newSection = Factory::makeFactory($line);
 
 			if ($newSection !== null) {
 				$currentSection = $newSection;
