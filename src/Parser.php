@@ -7,6 +7,7 @@ use Jalle19\HaPHProxy\Exception\ParserException;
 use Jalle19\HaPHProxy\Parameter\Parameter;
 use Jalle19\HaPHProxy\Section\BackendSection;
 use Jalle19\HaPHProxy\Section\DefaultSection;
+use Jalle19\HaPHProxy\Section\Factory;
 use Jalle19\HaPHProxy\Section\FrontendSection;
 use Jalle19\HaPHProxy\Section\GlobalSection;
 use Jalle19\HaPHProxy\Section\ListenSection;
@@ -51,57 +52,56 @@ class Parser
 	 */
 	public function parse()
 	{
-		$handle = fopen($this->filePath, "r");
+		$configuration  = new Configuration();
+		$currentSection = null;
 
-		if ($handle) {
-			$configuration  = new Configuration();
-			$currentSection = null;
+		foreach ($this->readConfigurationLines() as $line) {
+			// Check for section changes
+			$newSection = Factory::factory($line);
 
-			while (($line = fgets($handle)) !== false) {
-				$line = self::normalizeLine($line);
+			if ($newSection !== null) {
+				$currentSection = $newSection;
+				$configuration->addSection($currentSection);
 
-				if (self::shouldOmitLine($line)) {
-					continue;
-				}
-
-				$words     = explode(' ', $line);
-				$firstWord = $words[0];
-
-				// Check for section changes
-				if (in_array($firstWord, Sections::$availableSections)) {
-					switch ($firstWord) {
-						case Sections::SECTION_GLOBAL:
-							$currentSection = new GlobalSection();
-							break;
-						case Sections::SECTION_DEFAULTS:
-							$currentSection = new DefaultSection();
-							break;
-						case Sections::SECTION_FRONTEND:
-							$currentSection = new FrontendSection($line);
-							break;
-						case Sections::SECTION_BACKEND:
-							$currentSection = new BackendSection($line);
-							break;
-						case Sections::SECTION_LISTEN:
-							$currentSection = new ListenSection($line);
-							break;
-					}
-
-					$configuration->addSection($currentSection);
-					continue;
-				}
-
-				if ($currentSection !== null) {
-					$currentSection->addParameter(self::parseParameter($line));
-				}
+				continue;
 			}
 
-			fclose($handle);
+			// Parse parameters into the current section
+			if ($currentSection !== null) {
+				$currentSection->addParameter(self::parseParameter($line));
+			}
+		}
 
-			return $configuration;
-		} else {
+		return $configuration;
+	}
+
+
+	/**
+	 * @return array the normalized configuration lines
+	 *
+	 * @throws ParserException if the configuration file could not be read
+	 */
+	private function readConfigurationLines()
+	{
+		$handle = fopen($this->filePath, "r");
+
+		if (!$handle) {
 			throw new ParserException('Unable to parse ' . $this->filePath . ', could not open file handle');
 		}
+
+		$lines = [];
+
+		while (($line = fgets($handle)) !== false) {
+			$line = self::normalizeLine($line);
+
+			if (self::shouldOmitLine($line)) {
+				continue;
+			}
+
+			$lines[] = $line;
+		}
+
+		return $lines;
 	}
 
 
