@@ -23,8 +23,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testParseDump($configurationPath)
 	{
-		var_dump(__DIR__ . '/../resources/examples/example1.cfg');
-		
 		// Parse the configuration
 		$parser        = new Parser($configurationPath);
 		$configuration = $parser->parse();
@@ -40,7 +38,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		$process->run();
 
 		$output = $process->getOutput();
-		var_dump($output, $process->getErrorOutput(), $process->getExitCode());
 		$this->assertTrue($process->isSuccessful());
 		$this->assertEquals('Configuration file is valid', trim($output));
 	}
@@ -54,7 +51,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		return [
 			[__DIR__ . '/../resources/examples/example1.cfg'],
 			[__DIR__ . '/../resources/examples/example2.cfg'],
-			[__DIR__ . '/../resources/examples/ubuntu_default.cfg'],
 		];
 	}
 
