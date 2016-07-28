@@ -23,6 +23,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testParseDump($configurationPath)
 	{
+		var_dump(__DIR__ . '/../resources/examples/example1.cfg');
+		
 		// Parse the configuration
 		$parser        = new Parser($configurationPath);
 		$configuration = $parser->parse();
