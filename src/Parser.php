@@ -138,7 +138,7 @@ class Parser
 	/**
 	 * @param string $line
 	 *
-	 * @return string
+	 * @return Parameter
 	 */
 	private static function parseParameter($line)
 	{

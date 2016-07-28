@@ -32,11 +32,11 @@ abstract class AbstractSection
 
 
 	/**
-	 * @param string $parameter
+	 * @param Parameter $parameter
 	 *
 	 * @return $this
 	 */
-	public function addParameter($parameter)
+	public function addParameter(Parameter $parameter)
 	{
 		$this->parameters[] = $parameter;
 
