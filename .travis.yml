@@ -9,6 +9,6 @@ php:
 install:
   - composer self-update
   - composer install
-  - apt-get install -qq haproxy
+  - sudo apt-get install -qq haproxy
 script:
   - vendor/bin/phpunit
