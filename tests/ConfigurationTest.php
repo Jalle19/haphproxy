@@ -40,6 +40,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		$process->run();
 
 		$output = $process->getOutput();
+		var_dump($output, $process->getErrorOutput(), $process->getExitCode());
 		$this->assertTrue($process->isSuccessful());
 		$this->assertEquals('Configuration file is valid', trim($output));
 	}
