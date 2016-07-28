@@ -2,6 +2,10 @@
 
 haphproxy-configuration-parser is a PHP library which can parse and create HAproxy configuration files.
 
+## Requirements
+
+* PHP 5.6 or newer
+
 ## Installation
 
 Install via Composer:
