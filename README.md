@@ -1,5 +1,8 @@
 # haphproxy-configuration-parser
 
+[![Build Status](https://travis-ci.org/Jalle19/haphproxy-configuration-parser.svg?branch=master)](https://travis-ci.org/Jalle19/haphproxy-configuration-parser)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jalle19/haphproxy-configuration-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jalle19/haphproxy-configuration-parser/?branch=master)
+
 haphproxy-configuration-parser is a PHP library which can parse and create HAproxy configuration files.
 
 ## Requirements
