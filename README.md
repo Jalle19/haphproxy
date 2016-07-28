@@ -30,7 +30,7 @@ use Jalle19\HaPHProxy\Section;
 
 // Create a parser
 try {
-	$parser = new Parser(__DIR__ . '/../resources/examples/config2.cfg');
+	$parser = new Parser('/etc/haproxy/haproxy.cfg');
 } catch (FileNotFoundException $e) {
 	die($e->getMessage());
 }
@@ -52,7 +52,7 @@ This example shows how you can dynamically create a configuration:
 ```php
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once('vendor/autoload.php');
 
 use Jalle19\HaPHProxy\Configuration;
 use Jalle19\HaPHProxy\Parameter\Parameter;
