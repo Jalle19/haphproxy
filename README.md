@@ -22,6 +22,10 @@ composer require jalle19/haphproxy-configuration-parser
 This example reads an existing configuration file, parses it and dumps it back as a string:
 
 ```php
+<?php
+
+require_once('vendor/autoload.php');
+
 use Jalle19\HaPHProxy\Exception\FileNotFoundException;
 use Jalle19\HaPHProxy\Parser;
 use Jalle19\HaPHProxy\Exception\ParserException;
@@ -59,18 +63,20 @@ use Jalle19\HaPHProxy\Parameter\Parameter;
 use Jalle19\HaPHProxy\Writer;
 use Jalle19\HaPHProxy\Section;
 
-// Create a configuration manually
 $configuration = new Configuration();
 
+// Add a global section
 $globalSection = new Section\GlobalSection();
 $globalSection->addParameter(new Parameter('daemon'))
               ->addParameter(new Parameter('maxconns', 128));
 $configuration->addSection($globalSection);
 
+// Add a defaults section
 $defaultSection = new Section\DefaultSection();
 $defaultSection->addParameter(new Parameter('mode', 'http'));
 $configuration->addSection($defaultSection);
 
+// Dump the configuration
 $writer = new Writer($configuration);
 echo $writer->dump();
 
