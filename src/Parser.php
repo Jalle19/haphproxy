@@ -5,13 +5,7 @@ namespace Jalle19\HaPHProxy;
 use Jalle19\HaPHProxy\Exception\FileNotFoundException;
 use Jalle19\HaPHProxy\Exception\ParserException;
 use Jalle19\HaPHProxy\Parameter\Parameter;
-use Jalle19\HaPHProxy\Section\BackendSection;
-use Jalle19\HaPHProxy\Section\DefaultSection;
 use Jalle19\HaPHProxy\Section\Factory;
-use Jalle19\HaPHProxy\Section\FrontendSection;
-use Jalle19\HaPHProxy\Section\GlobalSection;
-use Jalle19\HaPHProxy\Section\ListenSection;
-use Jalle19\HaPHProxy\Section\Sections;
 
 /**
  * Class Parser
