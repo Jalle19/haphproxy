@@ -9,6 +9,9 @@
             "email": "sam.stenvall@nordsoftware.com"
         }
     ],
+    "keywords": [
+        "haproxy"
+    ],
     "require": {
         "php": ">=5.6.0"
     },
