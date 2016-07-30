@@ -28,7 +28,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		$configuration = $parser->parse();
 
 		// Dump the configuration to a temporary file
-		$tempFilePath = tempnam(sys_get_temp_dir(), 'haphproxy-configuration-parser-test');
+		$tempFilePath = tempnam(sys_get_temp_dir(), 'haphproxy-test');
 		$writer       = new Writer($configuration);
 		file_put_contents($tempFilePath, $writer->dump());
 

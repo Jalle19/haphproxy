@@ -13,7 +13,7 @@ use Jalle19\HaPHProxy\Parameter\Parameter;
 class Writer
 {
 
-	const DEFAULT_PREFACE = '# Generated with Jalle19\haphproxy-configuration-parser';
+	const DEFAULT_PREFACE = '# Generated with Jalle19/haphproxy';
 	const DEFAULT_INDENT  = '    ';
 
 	/**

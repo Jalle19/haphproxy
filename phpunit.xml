@@ -1,6 +1,6 @@
 <phpunit>
     <testsuites>
-        <testsuite name="haphproxy-configuration-parser">
+        <testsuite name="haphproxy">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

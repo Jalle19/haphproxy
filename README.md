@@ -1,9 +1,9 @@
-# haphproxy-configuration-parser
+# haphproxy
 
-[![Build Status](https://travis-ci.org/Jalle19/haphproxy-configuration-parser.svg?branch=master)](https://travis-ci.org/Jalle19/haphproxy-configuration-parser)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jalle19/haphproxy-configuration-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jalle19/haphproxy-configuration-parser/?branch=master)
+[![Build Status](https://travis-ci.org/Jalle19/haphproxy.svg?branch=master)](https://travis-ci.org/Jalle19/haphproxy)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jalle19/haphproxy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jalle19/haphproxy/?branch=master)
 
-haphproxy-configuration-parser is a PHP library which can parse and create HAproxy configuration files.
+haphproxy is a PHP library which can parse and create HAproxy configuration files.
 
 ## Requirements
 
@@ -14,7 +14,7 @@ haphproxy-configuration-parser is a PHP library which can parse and create HApro
 Install via Composer:
 
 ```
-composer require jalle19/haphproxy-configuration-parser
+composer require jalle19/haphproxy
 ```
 
 ## Usage
@@ -85,7 +85,7 @@ echo $writer->dump();
 The above results in the following configuration being generated:
 
 ```
-# Generated with Jalle19\haphproxy-configuration-parser
+# Generated with Jalle19\haphproxy
 global
     daemon
     maxconns 128

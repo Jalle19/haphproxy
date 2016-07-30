@@ -1,5 +1,5 @@
 {
-    "name": "jalle19/haphproxy-configuration-parser",
+    "name": "jalle19/haphproxy",
     "description": "A HAProxy configuration parser for PHP",
     "type": "library",
     "license": "GPL-2.0+",
