@@ -3,6 +3,7 @@
 namespace Jalle19\HaPHProxy;
 
 use Jalle19\HaPHProxy\Parameter\Parameter;
+use Jalle19\HaPHProxy\Section\AbstractSection;
 use Jalle19\HaPHProxy\Section\NamedSection;
 
 /**
@@ -79,13 +80,7 @@ class Writer
 		$configuration = $this->preface . PHP_EOL;
 
 		foreach ($this->configuration->getSections() as $section) {
-			$configuration .= $section->getType();
-
-			if ($section instanceof NamedSection) {
-				$configuration .= ' ' . $section->getName();
-			}
-
-			$configuration .= PHP_EOL;
+			$configuration .= $this->writeSection($section);
 
 			foreach ($section->getParameters() as $parameter) {
 				$configuration .= $this->indent . $this->writeParameter($parameter) . PHP_EOL;
@@ -95,6 +90,25 @@ class Writer
 		}
 
 		return $configuration;
+	}
+
+
+	/**
+	 * @param AbstractSection $section
+	 *
+	 * @return string
+	 */
+	private function writeSection(AbstractSection $section)
+	{
+		$output = $section->getType();
+
+		if ($section instanceof NamedSection) {
+			$output .= ' ' . $section->getName();
+		}
+
+		$output .= PHP_EOL;
+
+		return $output;
 	}
 
 
