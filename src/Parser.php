@@ -3,7 +3,6 @@
 namespace Jalle19\HaPHProxy;
 
 use Jalle19\HaPHProxy\Exception\FileNotFoundException;
-use Jalle19\HaPHProxy\Exception\ParserException;
 use Jalle19\HaPHProxy\Parameter\Parameter;
 use Jalle19\HaPHProxy\Section\Factory;
 
@@ -27,12 +26,12 @@ class Parser
 	 *
 	 * @param string $filePath
 	 *
-	 * @throws FileNotFoundException if the specified file could not be found
+	 * @throws FileNotFoundException if the specified file could not be found or is not readable
 	 */
 	public function __construct($filePath)
 	{
-		if (!file_exists($filePath)) {
-			throw new FileNotFoundException($filePath . ' not found');
+		if (!file_exists($filePath) || !is_readable($filePath)) {
+			throw new FileNotFoundException($filePath . ' not found or is not readable');
 		}
 
 		$this->filePath = $filePath;
@@ -41,15 +40,13 @@ class Parser
 
 	/**
 	 * @return Configuration
-	 *
-	 * @throws ParserException if the parsing fails
 	 */
 	public function parse()
 	{
 		$configuration  = new Configuration();
 		$currentSection = null;
 
-		foreach ($this->readConfigurationLines() as $line) {
+		foreach ($this->getNormalizedConfigurationLines() as $line) {
 			// Check for section changes
 			$newSection = Factory::makeFactory($line);
 
@@ -71,21 +68,28 @@ class Parser
 
 
 	/**
-	 * @return array the normalized configuration lines
+	 * Reads the configuration and yields one line at a time
 	 *
-	 * @throws ParserException if the configuration file could not be read
+	 * @return \Generator
 	 */
-	private function readConfigurationLines()
+	private function getConfigurationLines()
 	{
 		$handle = fopen($this->filePath, "r");
 
-		if (!$handle) {
-			throw new ParserException('Unable to parse ' . $this->filePath . ', could not open file handle');
+		while (($line = fgets($handle)) !== false) {
+			yield $line;
 		}
+	}
 
+
+	/**
+	 * @return array the normalized configuration lines
+	 */
+	private function getNormalizedConfigurationLines()
+	{
 		$lines = [];
 
-		while (($line = fgets($handle)) !== false) {
+		foreach ($this->getConfigurationLines() as $line) {
 			$line = self::normalizeLine($line);
 
 			if (self::shouldOmitLine($line)) {
