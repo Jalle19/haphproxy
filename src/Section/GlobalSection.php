@@ -14,15 +14,6 @@ class GlobalSection extends AbstractSection
 	/**
 	 * @inheritdoc
 	 */
-	public function getName()
-	{
-		return Sections::SECTION_GLOBAL;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
 	public function getType()
 	{
 		return Sections::SECTION_GLOBAL;

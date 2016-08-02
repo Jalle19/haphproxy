@@ -20,12 +20,6 @@ abstract class AbstractSection
 
 
 	/**
-	 * @return string the section name (what should appear on the line defining the section)
-	 */
-	abstract public function getName();
-
-
-	/**
 	 * @return string the type of section
 	 */
 	abstract public function getType();

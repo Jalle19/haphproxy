@@ -3,11 +3,12 @@
 namespace Jalle19\HaPHProxy;
 
 use Jalle19\HaPHProxy\Parameter\Parameter;
+use Jalle19\HaPHProxy\Section\NamedSection;
 
 /**
  * Class Writer
  * @package Jalle19\HaPHProxy
- * @author Sam Stenvall <sam.stenvall@nordsoftware.com>
+ * @author  Sam Stenvall <sam.stenvall@nordsoftware.com>
  * @license GNU General Public License 2.0+
  */
 class Writer
@@ -50,7 +51,7 @@ class Writer
 	{
 		$this->configuration = $configuration;
 	}
-	
+
 
 	/**
 	 * @param string $preface
@@ -78,7 +79,13 @@ class Writer
 		$configuration = $this->preface . PHP_EOL;
 
 		foreach ($this->configuration->getSections() as $section) {
-			$configuration .= $section->getName() . PHP_EOL;
+			$configuration .= $section->getType();
+
+			if ($section instanceof NamedSection) {
+				$configuration .= ' ' . $section->getName();
+			}
+
+			$configuration .= PHP_EOL;
 
 			foreach ($section->getParameters() as $parameter) {
 				$configuration .= $this->indent . $this->writeParameter($parameter) . PHP_EOL;

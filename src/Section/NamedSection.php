@@ -29,11 +29,13 @@ abstract class NamedSection extends AbstractSection
 
 
 	/**
-	 * @inheritdoc
+	 * @return string the name of the section
 	 */
 	public function getName()
 	{
-		return $this->sectionLine;
+		$words = explode(' ', $this->sectionLine, 2);
+
+		return $words[1];
 	}
 
 }

@@ -14,15 +14,6 @@ class DefaultSection extends AbstractSection
 	/**
 	 * @inheritdoc
 	 */
-	public function getName()
-	{
-		return Sections::SECTION_DEFAULTS;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
 	public function getType()
 	{
 		return Sections::SECTION_DEFAULTS;
