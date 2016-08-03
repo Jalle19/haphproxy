@@ -5,6 +5,13 @@
 
 haphproxy is a PHP library which can parse and create HAproxy configuration files.
 
+The library operates on the configuration at a low level. A configuration is made up of sections (e.g. `global` and 
+`default`). Each section is made up of parameters (e.g. `mode` and `timeout`). Each parameter has a value associated 
+with it, e.g. a parameter named `timeout` can have a value of `timeout 30s`.
+
+Since the library doesn't actually understand how HAproxy works, it is only guaranteed to generate syntactically valid 
+configurations. For proper validation, please use `haproxy -f <configurationFile> -c`.
+
 ## Requirements
 
 * PHP 5.6 or newer
