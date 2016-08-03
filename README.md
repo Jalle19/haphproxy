@@ -30,7 +30,6 @@ require_once('vendor/autoload.php');
 
 use Jalle19\HaPHProxy\Exception\FileNotFoundException;
 use Jalle19\HaPHProxy\Parser;
-use Jalle19\HaPHProxy\Exception\ParserException;
 use Jalle19\HaPHProxy\Writer;
 use Jalle19\HaPHProxy\Section;
 
@@ -41,15 +40,10 @@ try {
 	die($e->getMessage());
 }
 
-// Parse the configuration
-try {
-	$configuration = $parser->parse();
-} catch (ParserException $e) {
-	die($e->getMessage());
-}
-
-// Dump the parsed configuration
+// Parse and dump the configuration
+$configuration = $parser->parse();
 $writer = new Writer($configuration);
+
 echo $writer->dump();
 ```
 
