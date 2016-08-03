@@ -39,11 +39,58 @@ abstract class AbstractSection
 
 
 	/**
+	 * @param string $name
+	 *
+	 * @return bool whether the specified parameter exists
+	 */
+	public function hasParameter($name)
+	{
+		return $this->getParameterByName($name) !== null;
+	}
+
+
+	/**
+	 * @param string $name
+	 *
+	 * @return Parameter|null the parameter matching the specified name, or null if not found
+	 */
+	public function getParameterByName($name)
+	{
+		foreach ($this->parameters as $parameter) {
+			if ($parameter->getName() === $name) {
+				return $parameter;
+			}
+		}
+
+		return null;
+	}
+
+
+	/**
 	 * @return Parameter[]
 	 */
 	public function getParameters()
 	{
 		return $this->parameters;
+	}
+
+
+	/**
+	 * @param string $name
+	 *
+	 * @return Parameter[] all parameters matching the specified nameF
+	 */
+	public function getParametersByName($name)
+	{
+		$parameters = [];
+
+		foreach ($this->parameters as $parameter) {
+			if ($parameter->getName() === $name) {
+				$parameters[] = $parameter;
+			}
+		}
+
+		return $parameters;
 	}
 
 }

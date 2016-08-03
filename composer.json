@@ -20,6 +20,11 @@
             "Jalle19\\HaPHProxy\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Jalle19\\HaPHProxy\\Test\\": "tests/"
+        }
+    },
     "require-dev": {
         "phpunit/phpunit": "^5.4",
         "symfony/process": "^3.1"
