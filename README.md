@@ -96,9 +96,6 @@ in combination with other tools to indicate whether the configuration file has b
 ```php
 
 $configuration = new Configuration();
-
-...
-
 $writer = new Writer($configuration);
 
 // Remember to include the comment character in the preface
