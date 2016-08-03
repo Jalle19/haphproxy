@@ -19,6 +19,8 @@ composer require jalle19/haphproxy
 
 ## Usage
 
+### Reading a configuration
+
 This example reads an existing configuration file, parses it and dumps it back as a string:
 
 ```php
@@ -50,6 +52,8 @@ try {
 $writer = new Writer($configuration);
 echo $writer->dump();
 ```
+
+### Writing a configuration
 
 This example shows how you can dynamically create a configuration:
 
@@ -93,6 +97,28 @@ global
 defaults
     mode http
 
+```
+
+### Inspecting a configuration
+
+You can access the individual parameters of each section like this:
+
+```php
+// Make a section with some parameters
+$section = new Section\DefaultSection();
+$section->addParameter(new Parameter('mode', 'http'));
+$section->addParameter(new Parameter('timeout', 'client 30s'));
+$section->addParameter(new Parameter('timeout', 'connect 30s'));
+$section->addParameter(new Parameter('timeout', 'server 30s'));
+
+// Get the value of a single parameter
+$modeParameter = $section->getParameter('mode');
+$mode = $modeParameter->getValue();
+
+// Loop through all the "timeout" parameters
+foreach ($section->getParametersByName('timeout') as $timeoutParameter) {
+
+}
 ```
 
 ## Testing
