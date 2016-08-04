@@ -122,6 +122,19 @@ foreach ($section->getParametersByName('timeout') as $timeoutParameter) {
 }
 ```
 
+You can also loop through specific sections of a configuration:
+
+```php
+$configuration = new Configuration();
+$configuration->addSection(new FrontendSection('frontend frontend-1'));
+$configuration->addSection(new FrontendSection('frontend frontend-2'));
+$configuration->addSection(new FrontendSection('frontend frontend-3'));
+
+foreach ($configuration->getFrontendSections() as $frontendSection) {
+
+}
+```
+
 ### Magic comments
 
 A magic comment is a comment that beings with `HAPHPROXY_COMMENT`. In contrast to normal comments, these are not 

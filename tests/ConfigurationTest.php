@@ -2,7 +2,10 @@
 
 namespace Jalle19\HaPHProxy\Test;
 
+use Jalle19\HaPHProxy\Configuration;
 use Jalle19\HaPHProxy\Parser;
+use Jalle19\HaPHProxy\Section\DefaultsSection;
+use Jalle19\HaPHProxy\Section\FrontendSection;
 use Jalle19\HaPHProxy\Writer;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -40,6 +43,22 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		$output = $process->getOutput();
 		$this->assertTrue($process->isSuccessful());
 		$this->assertEquals('Configuration file is valid', trim($output));
+	}
+
+
+	/**
+	 * Tests that getSingleSection() and getMultipleSections() work properly
+	 */
+	public function testGetSections()
+	{
+		$configuration = new Configuration();
+		$configuration->addSection(new DefaultsSection());
+		$configuration->addSection(new FrontendSection('frontend frontend-1'));
+		$configuration->addSection(new FrontendSection('frontend frontend-2'));
+		$configuration->addSection(new FrontendSection('frontend frontend-3'));
+
+		$this->assertNotNull($configuration->getDefaultsSection());
+		$this->assertCount(3, $configuration->getFrontendSections());
 	}
 
 

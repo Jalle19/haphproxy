@@ -3,7 +3,11 @@
 namespace Jalle19\HaPHProxy;
 
 use Jalle19\HaPHProxy\Section\AbstractSection;
+use Jalle19\HaPHProxy\Section\BackendSection;
+use Jalle19\HaPHProxy\Section\DefaultsSection;
+use Jalle19\HaPHProxy\Section\FrontendSection;
 use Jalle19\HaPHProxy\Section\GlobalSection;
+use Jalle19\HaPHProxy\Section\ListenSection;
 use Jalle19\HaPHProxy\Section\Sections;
 
 /**
@@ -71,13 +75,79 @@ class Configuration
 	 */
 	public function getGlobalSection()
 	{
+		return $this->getSingleSection(Sections::SECTION_GLOBAL);
+	}
+
+
+	/**
+	 * @return DefaultsSection|null
+	 */
+	public function getDefaultsSection()
+	{
+		return $this->getSingleSection(Sections::SECTION_DEFAULTS);
+	}
+
+
+	/**
+	 * @return FrontendSection[]
+	 */
+	public function getFrontendSections()
+	{
+		return $this->getMultipleSections(Sections::SECTION_FRONTEND);
+	}
+
+
+	/**
+	 * @return BackendSection[]
+	 */
+	public function getBackendSections()
+	{
+		return $this->getMultipleSections(Sections::SECTION_BACKEND);
+	}
+
+
+	/**
+	 * @return ListenSection[]
+	 */
+	public function getListenSections()
+	{
+		return $this->getMultipleSections(Sections::SECTION_LISTEN);
+	}
+
+
+	/**
+	 * @param string $type
+	 *
+	 * @return AbstractSection|null
+	 */
+	private function getSingleSection($type)
+	{
 		foreach ($this->sections as $section) {
-			if ($section->getType() === Sections::SECTION_GLOBAL) {
+			if ($section->getType() === $type) {
 				return $section;
 			}
 		}
 
 		return null;
+	}
+
+
+	/**
+	 * @param string $type
+	 *
+	 * @return AbstractSection[]
+	 */
+	private function getMultipleSections($type)
+	{
+		$sections = [];
+
+		foreach ($this->sections as $section) {
+			if ($section->getType() === $type) {
+				$sections[] = $section;
+			}
+		}
+
+		return $sections;
 	}
 
 }
