@@ -122,6 +122,33 @@ foreach ($section->getParametersByName('timeout') as $timeoutParameter) {
 }
 ```
 
+### Magic comments
+
+A magic comment is a comment that beings with `HAPHPROXY_COMMENT`. In contrast to normal comments, these are not 
+omitted during parsing and writing. Magic comments only apply to sections and can be useful to store arbitrary data.
+
+```php
+$configuration = new Configuration();
+
+$section = new Section\DefaultSection();
+$section->addMagicComment('magic');
+$section->addParameter(new Parameter('mode', 'http'));
+
+$writer = new Writer($configuration);
+
+echo $writer->dump();
+```
+
+The above results in the following configuration being generated:
+
+```
+# Generated with Jalle19\haphproxy
+defaults
+    # HAPHPROXY_COMMENT magic
+    mode http
+
+```
+
 ## Testing
 
 The test suite leaves all the validation of the generated configurations to HAproxy itself, so in order to run the test 
