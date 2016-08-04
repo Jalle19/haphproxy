@@ -54,7 +54,7 @@ class Parser
 
 		foreach ($this->getNormalizedConfigurationLines() as $line) {
 			// Parse preface
-			if ($currentSection === null && self::isComment($line)) {
+			if ($currentSection === null && $this->isComment($line)) {
 				$preface .= $line . PHP_EOL;
 			}
 
@@ -76,10 +76,10 @@ class Parser
 			// Parse parameters into the current section
 			if ($currentSection !== null) {
 				// Distinguish between parameters and magic comments
-				if (self::isMagicComment($line)) {
-					$currentSection->addMagicComment(self::parseMagicComment($line));
-				} else if (!self::isComment($line)) {
-					$currentSection->addParameter(self::parseParameter($line));
+				if ($this->isMagicComment($line)) {
+					$currentSection->addMagicComment($this->parseMagicComment($line));
+				} else if (!$this->isComment($line)) {
+					$currentSection->addParameter($this->parseParameter($line));
 				}
 			}
 		}
@@ -113,7 +113,7 @@ class Parser
 	private function getNormalizedConfigurationLines()
 	{
 		foreach ($this->getConfigurationLines() as $line) {
-			yield self::normalizeLine($line);
+			yield $this->normalizeLine($line);
 		}
 	}
 
@@ -123,7 +123,7 @@ class Parser
 	 *
 	 * @return string
 	 */
-	private static function normalizeLine($line)
+	private function normalizeLine($line)
 	{
 		return preg_replace('/\s+/', ' ', trim($line));
 	}
@@ -134,7 +134,7 @@ class Parser
 	 *
 	 * @return bool if the line is a comment
 	 */
-	private static function isComment($line)
+	private function isComment($line)
 	{
 		return substr($line, 0, 1) === '#';
 	}
@@ -145,7 +145,7 @@ class Parser
 	 *
 	 * @return bool whether the line is a magic comment
 	 */
-	private static function isMagicComment($line)
+	private function isMagicComment($line)
 	{
 		return substr($line, 0, strlen(self::MAGIC_COMMENT_PREFIX)) === self::MAGIC_COMMENT_PREFIX;
 	}
@@ -156,7 +156,7 @@ class Parser
 	 *
 	 * @return string
 	 */
-	private static function parseMagicComment($line)
+	private function parseMagicComment($line)
 	{
 		return trim(substr($line, strlen(self::MAGIC_COMMENT_PREFIX)));
 	}
@@ -167,7 +167,7 @@ class Parser
 	 *
 	 * @return Parameter
 	 */
-	private static function parseParameter($line)
+	private function parseParameter($line)
 	{
 		$words = explode(' ', $line, 2);
 
