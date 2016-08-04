@@ -4,6 +4,7 @@ namespace Jalle19\HaPHProxy;
 
 use Jalle19\HaPHProxy\Exception\FileNotFoundException;
 use Jalle19\HaPHProxy\Parameter\Parameter;
+use Jalle19\HaPHProxy\Section\AbstractSection;
 use Jalle19\HaPHProxy\Section\Factory;
 
 /**
@@ -43,10 +44,22 @@ class Parser
 	 */
 	public function parse()
 	{
-		$configuration  = new Configuration();
+		$configuration = new Configuration();
+		$preface       = '';
+
+		/* @var AbstractSection|null $currentSection */
 		$currentSection = null;
 
 		foreach ($this->getNormalizedConfigurationLines() as $line) {
+			// Parse preface
+			if ($currentSection === null && self::isComment($line)) {
+				$preface .= $line . PHP_EOL;
+			}
+
+			if (self::shouldOmitLine($line)) {
+				continue;
+			}
+
 			// Check for section changes
 			$newSection = Factory::makeFactory($line);
 
@@ -62,6 +75,8 @@ class Parser
 				$currentSection->addParameter(self::parseParameter($line));
 			}
 		}
+
+		$configuration->setPreface($preface);
 
 		return $configuration;
 	}
@@ -83,23 +98,13 @@ class Parser
 
 
 	/**
-	 * @return array the normalized configuration lines
+	 * @return \Generator
 	 */
 	private function getNormalizedConfigurationLines()
 	{
-		$lines = [];
-
 		foreach ($this->getConfigurationLines() as $line) {
-			$line = self::normalizeLine($line);
-
-			if (self::shouldOmitLine($line)) {
-				continue;
-			}
-
-			$lines[] = $line;
+			yield self::normalizeLine($line);
 		}
-
-		return $lines;
 	}
 
 
@@ -117,11 +122,22 @@ class Parser
 	/**
 	 * @param string $line
 	 *
+	 * @return bool if the line is a comment
+	 */
+	private static function isComment($line)
+	{
+		return substr($line, 0, 1) === '#';
+	}
+
+
+	/**
+	 * @param string $line
+	 *
 	 * @return bool
 	 */
 	private static function shouldOmitLine($line)
 	{
-		if (substr($line, 0, 1) === '#') {
+		if (self::isComment($line)) {
 			return true;
 		}
 

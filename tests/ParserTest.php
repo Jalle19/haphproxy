@@ -33,4 +33,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 		new Parser($filePath);
 	}
 
+
+	/**
+	 * Tests that existing preface comments in configuration file are parsed correctly
+	 */
+	public function testParsePreface()
+	{
+		$parser        = new Parser(__DIR__ . '/../resources/examples/example3.cfg');
+		$configuration = $parser->parse();
+
+		$expected = <<<EOD
+# Generated with Jalle19/haphproxy
+EOD;
+
+		$this->assertEquals($expected, $configuration->getPreface());
+	}
+
 }

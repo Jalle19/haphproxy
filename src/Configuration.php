@@ -14,9 +14,34 @@ class Configuration
 {
 
 	/**
+	 * @var string
+	 */
+	private $preface;
+
+	/**
 	 * @var AbstractSection[]
 	 */
 	private $sections = [];
+
+
+	/**
+	 * @return string
+	 */
+	public function getPreface()
+	{
+		return $this->preface;
+	}
+
+
+	/**
+	 * Sets the preface. The specified preface will be trimmed.
+	 *
+	 * @param string $preface
+	 */
+	public function setPreface($preface)
+	{
+		$this->preface = trim($preface);
+	}
 
 
 	/**
