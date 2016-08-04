@@ -49,4 +49,22 @@ EOD;
 		$this->assertEquals($expected, $configuration->getPreface());
 	}
 
+
+	/**
+	 * Tests that magic comments are parsed correctly
+	 */
+	public function testMagicComments()
+	{
+		$parser        = new Parser(__DIR__ . '/../resources/examples/magic_comments.cfg');
+		$configuration = $parser->parse();
+
+		$globalSection = $configuration->getGlobalSection();
+		$this->assertNotNull($globalSection);
+
+		$magicComments = $globalSection->getMagicComments();
+		$this->assertCount(1, $magicComments);
+
+		$this->assertEquals('this is the magic comment', $magicComments[0]);
+	}
+
 }

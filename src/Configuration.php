@@ -3,6 +3,8 @@
 namespace Jalle19\HaPHProxy;
 
 use Jalle19\HaPHProxy\Section\AbstractSection;
+use Jalle19\HaPHProxy\Section\GlobalSection;
+use Jalle19\HaPHProxy\Section\Sections;
 
 /**
  * Class Configuration
@@ -61,6 +63,21 @@ class Configuration
 	public function getSections()
 	{
 		return $this->sections;
+	}
+
+
+	/**
+	 * @return GlobalSection|null
+	 */
+	public function getGlobalSection()
+	{
+		foreach ($this->sections as $section) {
+			if ($section->getType() === Sections::SECTION_GLOBAL) {
+				return $section;
+			}
+		}
+
+		return null;
 	}
 
 }

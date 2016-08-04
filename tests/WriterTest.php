@@ -4,6 +4,7 @@ namespace Jalle19\HaPHProxy\Test;
 
 use Jalle19\HaPHProxy\Configuration;
 use Jalle19\HaPHProxy\Parameter\Parameter;
+use Jalle19\HaPHProxy\Parser;
 use Jalle19\HaPHProxy\Section\GlobalSection;
 use Jalle19\HaPHProxy\Writer;
 
@@ -27,6 +28,9 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	/**
+	 * Tests that indent handling works correctly
+	 */
 	public function testIndent()
 	{
 		$configuration = new Configuration();
@@ -42,6 +46,28 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 # PREFACE
 global
 INDENTfoo bar
+
+
+EOD;
+
+		$this->assertEquals($expected, $writer->dump());
+	}
+
+
+	/**
+	 * Tests that eventual magic comments in sections are preserved in the dumped output
+	 */
+	public function testPreserveMagicComments()
+	{
+		$parser       = new Parser(__DIR__ . '/../resources/examples/magic_comments.cfg');
+		$configuraton = $parser->parse();
+
+		$writer   = new Writer($configuraton);
+		$expected = <<<EOD
+# Generated with Jalle19/haphproxy
+global
+    # HAPHPROXY_COMMENT this is the magic comment
+    daemon
 
 
 EOD;

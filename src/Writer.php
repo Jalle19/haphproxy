@@ -67,6 +67,10 @@ class Writer
 		foreach ($this->configuration->getSections() as $section) {
 			$configuration .= $this->writeSection($section);
 
+			foreach ($section->getMagicComments() as $magicComment) {
+				$configuration .= $this->indent . $this->writeMagicComment($magicComment) . PHP_EOL;
+			}
+
 			foreach ($section->getParameters() as $parameter) {
 				$configuration .= $this->indent . $this->writeParameter($parameter) . PHP_EOL;
 			}
@@ -94,6 +98,17 @@ class Writer
 		$output .= PHP_EOL;
 
 		return $output;
+	}
+
+
+	/**
+	 * @param string $magicComment
+	 *
+	 * @return string
+	 */
+	private function writeMagicComment($magicComment)
+	{
+		return Parser::MAGIC_COMMENT_PREFIX . ' ' . $magicComment;
 	}
 
 

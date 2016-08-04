@@ -16,6 +16,8 @@ use Jalle19\HaPHProxy\Section\Factory;
 class Parser
 {
 
+	const MAGIC_COMMENT_PREFIX = '# HAPHPROXY_COMMENT';
+
 	/**
 	 * @var string
 	 */
@@ -56,7 +58,8 @@ class Parser
 				$preface .= $line . PHP_EOL;
 			}
 
-			if (self::shouldOmitLine($line)) {
+			// Omit empty lines
+			if (empty($line)) {
 				continue;
 			}
 
@@ -72,11 +75,18 @@ class Parser
 
 			// Parse parameters into the current section
 			if ($currentSection !== null) {
-				$currentSection->addParameter(self::parseParameter($line));
+				// Distinguish between parameters and magic comments
+				if (self::isMagicComment($line)) {
+					$currentSection->addMagicComment(self::parseMagicComment($line));
+				} else if (!self::isComment($line)) {
+					$currentSection->addParameter(self::parseParameter($line));
+				}
 			}
 		}
 
-		$configuration->setPreface($preface);
+		if (!empty($preface)) {
+			$configuration->setPreface($preface);
+		}
 
 		return $configuration;
 	}
@@ -133,19 +143,22 @@ class Parser
 	/**
 	 * @param string $line
 	 *
-	 * @return bool
+	 * @return bool whether the line is a magic comment
 	 */
-	private static function shouldOmitLine($line)
+	private static function isMagicComment($line)
 	{
-		if (self::isComment($line)) {
-			return true;
-		}
+		return substr($line, 0, strlen(self::MAGIC_COMMENT_PREFIX)) === self::MAGIC_COMMENT_PREFIX;
+	}
 
-		if (empty($line)) {
-			return true;
-		}
 
-		return false;
+	/**
+	 * @param string $line
+	 *
+	 * @return string
+	 */
+	private static function parseMagicComment($line)
+	{
+		return trim(substr($line, strlen(self::MAGIC_COMMENT_PREFIX)));
 	}
 
 

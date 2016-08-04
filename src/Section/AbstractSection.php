@@ -18,6 +18,11 @@ abstract class AbstractSection
 	 */
 	protected $parameters = [];
 
+	/**
+	 * @var array
+	 */
+	protected $magicComments = [];
+
 
 	/**
 	 * @return string the type of section
@@ -91,6 +96,24 @@ abstract class AbstractSection
 		}
 
 		return $parameters;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getMagicComments()
+	{
+		return $this->magicComments;
+	}
+
+
+	/**
+	 * @param string $comment
+	 */
+	public function addMagicComment($comment)
+	{
+		$this->magicComments[] = $comment;
 	}
 
 }
