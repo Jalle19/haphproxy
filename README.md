@@ -31,15 +31,6 @@ composer require jalle19/haphproxy
 This example reads an existing configuration file, parses it and dumps it back as a string:
 
 ```php
-<?php
-
-require_once('vendor/autoload.php');
-
-use Jalle19\HaPHProxy\Exception\FileNotFoundException;
-use Jalle19\HaPHProxy\Parser;
-use Jalle19\HaPHProxy\Writer;
-use Jalle19\HaPHProxy\Section;
-
 // Create a parser
 try {
 	$parser = new Parser('/etc/haproxy/haproxy.cfg');
@@ -59,15 +50,6 @@ echo $writer->dump();
 This example shows how you can dynamically create a configuration:
 
 ```php
-<?php
-
-require_once('vendor/autoload.php');
-
-use Jalle19\HaPHProxy\Configuration;
-use Jalle19\HaPHProxy\Parameter\Parameter;
-use Jalle19\HaPHProxy\Writer;
-use Jalle19\HaPHProxy\Section;
-
 $configuration = new Configuration();
 
 // Add a global section
@@ -107,7 +89,6 @@ You can change the indentation and preface of the generated configuration. Chang
 in combination with other tools to indicate whether the configuration file has been generated dynamically or not.
 
 ```php
-
 $configuration = new Configuration();
 $writer = new Writer($configuration);
 
