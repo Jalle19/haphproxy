@@ -42,13 +42,18 @@ class Configuration
 
 
 	/**
-	 * Sets the preface. The specified preface will be trimmed.
+	 * Sets the preface. If the preface is empty after being trimmed, it won't be set.
 	 *
 	 * @param string $preface
 	 */
 	public function setPreface($preface)
 	{
-		$this->preface = trim($preface);
+		// Don't override the default preface with an empty one
+		$preface = trim($preface);
+
+		if (!empty($preface)) {
+			$this->preface = trim($preface);
+		}
 	}
 
 
