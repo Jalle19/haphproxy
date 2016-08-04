@@ -47,7 +47,6 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 global
 INDENTfoo bar
 
-
 EOD;
 
 		$this->assertEquals($expected, $writer->dump());
@@ -68,7 +67,6 @@ EOD;
 global
     # HAPHPROXY_COMMENT this is the magic comment
     daemon
-
 
 EOD;
 

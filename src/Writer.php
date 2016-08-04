@@ -15,7 +15,7 @@ use Jalle19\HaPHProxy\Section\NamedSection;
 class Writer
 {
 
-	const DEFAULT_INDENT  = '    ';
+	const DEFAULT_INDENT = '    ';
 
 	/**
 	 * @var Configuration
@@ -78,7 +78,8 @@ class Writer
 			$configuration .= PHP_EOL;
 		}
 
-		return $configuration;
+		// Ensure there's only one empty line in the end
+		return trim($configuration) . PHP_EOL;
 	}
 
 
