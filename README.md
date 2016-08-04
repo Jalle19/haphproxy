@@ -59,9 +59,9 @@ $globalSection->addParameter(new Parameter('daemon'))
 $configuration->addSection($globalSection);
 
 // Add a defaults section
-$defaultSection = new Section\DefaultSection();
-$defaultSection->addParameter(new Parameter('mode', 'http'));
-$configuration->addSection($defaultSection);
+$defaultsSection = new Section\DefaultsSection();
+$defaultsSection->addParameter(new Parameter('mode', 'http'));
+$configuration->addSection($defaultsSection);
 
 // Dump the configuration
 $writer = new Writer($configuration);
@@ -106,7 +106,7 @@ You can access the individual parameters of each section like this:
 
 ```php
 // Make a section with some parameters
-$section = new Section\DefaultSection();
+$section = new Section\DefaultsSection();
 $section->addParameter(new Parameter('mode', 'http'));
 $section->addParameter(new Parameter('timeout', 'client 30s'));
 $section->addParameter(new Parameter('timeout', 'connect 30s'));
@@ -130,7 +130,7 @@ omitted during parsing and writing. Magic comments only apply to sections and ca
 ```php
 $configuration = new Configuration();
 
-$section = new Section\DefaultSection();
+$section = new Section\DefaultsSection();
 $section->addMagicComment('magic');
 $section->addParameter(new Parameter('mode', 'http'));
 

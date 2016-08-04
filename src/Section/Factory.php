@@ -25,7 +25,7 @@ class Factory
 			case Sections::SECTION_GLOBAL:
 				return new GlobalSection();
 			case Sections::SECTION_DEFAULTS:
-				return new DefaultSection();
+				return new DefaultsSection();
 			case Sections::SECTION_FRONTEND:
 				return new FrontendSection($line);
 			case Sections::SECTION_BACKEND:
