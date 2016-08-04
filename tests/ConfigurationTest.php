@@ -40,9 +40,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		$process = $builder->getProcess();
 		$process->run();
 
-		// 0 = successful, 2 = no errors but won't start (partial configuration for example)
-		$exitCode = $process->getExitCode();
-		$this->assertTrue($exitCode === 0 || $exitCode === 2);
+		$output = $process->getOutput();
+		$this->assertTrue($process->isSuccessful());
+		$this->assertEquals('Configuration file is valid', trim($output));
 	}
 
 
@@ -70,8 +70,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 		return [
 			[__DIR__ . '/../resources/examples/example1.cfg'],
 			[__DIR__ . '/../resources/examples/example2.cfg'],
-			[__DIR__ . '/../resources/examples/example3.cfg'],
-			[__DIR__ . '/../resources/examples/magic_comments.cfg'],
 		];
 	}
 
