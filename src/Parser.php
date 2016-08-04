@@ -46,23 +46,13 @@ class Parser
 	 */
 	public function parse()
 	{
-		$configuration = new Configuration();
-		$preface       = '';
-
-		/* @var AbstractSection|null $currentSection */
+		$configuration  = new Configuration();
 		$currentSection = null;
 
+		// Parse the preface
+		$configuration->setPreface($this->parsePreface());
+
 		foreach ($this->getNormalizedConfigurationLines() as $line) {
-			// Parse preface
-			if ($currentSection === null && $this->isComment($line)) {
-				$preface .= $line . PHP_EOL;
-			}
-
-			// Omit empty lines
-			if (empty($line)) {
-				continue;
-			}
-
 			// Check for section changes
 			$newSection = Factory::makeFactory($line);
 
@@ -73,19 +63,10 @@ class Parser
 				continue;
 			}
 
-			// Parse parameters into the current section
+			// Parse the current section line by line
 			if ($currentSection !== null) {
-				// Distinguish between parameters and magic comments
-				if ($this->isMagicComment($line)) {
-					$currentSection->addMagicComment($this->parseMagicComment($line));
-				} else if (!$this->isComment($line)) {
-					$currentSection->addParameter($this->parseParameter($line));
-				}
+				$this->parseSectionLine($currentSection, $line);
 			}
-		}
-
-		if (!empty($preface)) {
-			$configuration->setPreface($preface);
 		}
 
 		return $configuration;
@@ -113,7 +94,11 @@ class Parser
 	private function getNormalizedConfigurationLines()
 	{
 		foreach ($this->getConfigurationLines() as $line) {
-			yield $this->normalizeLine($line);
+			$line = $this->normalizeLine($line);
+
+			if (!empty($line)) {
+				yield $line;
+			}
 		}
 	}
 
@@ -148,6 +133,40 @@ class Parser
 	private function isMagicComment($line)
 	{
 		return substr($line, 0, strlen(self::MAGIC_COMMENT_PREFIX)) === self::MAGIC_COMMENT_PREFIX;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	private function parsePreface()
+	{
+		$preface = '';
+
+		foreach ($this->getNormalizedConfigurationLines() as $line) {
+			if ($this->isComment($line)) {
+				$preface .= $line . PHP_EOL;
+			} else {
+				break;
+			}
+		}
+
+		return $preface;
+	}
+
+
+	/**
+	 * @param AbstractSection $section
+	 * @param string          $line
+	 */
+	private function parseSectionLine($section, $line)
+	{
+		// Distinguish between parameters and magic comments
+		if ($this->isMagicComment($line)) {
+			$section->addMagicComment($this->parseMagicComment($line));
+		} else if (!$this->isComment($line)) {
+			$section->addParameter($this->parseParameter($line));
+		}
 	}
 
 
