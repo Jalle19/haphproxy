@@ -13,10 +13,12 @@ use Jalle19\HaPHProxy\Section\AbstractSection;
 class Configuration
 {
 
+	const DEFAULT_PREFACE = '# Generated with Jalle19/haphproxy';
+
 	/**
 	 * @var string
 	 */
-	private $preface;
+	private $preface = self::DEFAULT_PREFACE;
 
 	/**
 	 * @var AbstractSection[]

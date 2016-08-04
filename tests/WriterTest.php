@@ -20,9 +20,9 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 	public function testPreface()
 	{
 		$configuration = new Configuration();
-		$writer        = new Writer($configuration);
-		$writer->setPreface('# TEST');
+		$configuration->setPreface('# TEST');
 
+		$writer = new Writer($configuration);
 		$this->assertEquals("# TEST\n", $writer->dump());
 	}
 
@@ -30,12 +30,12 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 	public function testIndent()
 	{
 		$configuration = new Configuration();
-		$section       = new GlobalSection();
+		$configuration->setPreface('# PREFACE');
+		$section = new GlobalSection();
 		$section->addParameter(new Parameter('foo', 'bar'));
 		$configuration->addSection($section);
 
 		$writer = new Writer($configuration);
-		$writer->setPreface('# PREFACE');
 		$writer->setIndent('INDENT');
 
 		$expected = <<<EOD

@@ -15,18 +15,12 @@ use Jalle19\HaPHProxy\Section\NamedSection;
 class Writer
 {
 
-	const DEFAULT_PREFACE = '# Generated with Jalle19/haphproxy';
 	const DEFAULT_INDENT  = '    ';
 
 	/**
 	 * @var Configuration
 	 */
 	private $configuration;
-
-	/**
-	 * @var string
-	 */
-	private $preface = self::DEFAULT_PREFACE;
 
 	/**
 	 * @var string
@@ -55,15 +49,6 @@ class Writer
 
 
 	/**
-	 * @param string $preface
-	 */
-	public function setPreface($preface)
-	{
-		$this->preface = $preface;
-	}
-
-
-	/**
 	 * @param string $indent
 	 */
 	public function setIndent($indent)
@@ -77,7 +62,7 @@ class Writer
 	 */
 	public function dump()
 	{
-		$configuration = $this->preface . PHP_EOL;
+		$configuration = $this->configuration->getPreface() . PHP_EOL;
 
 		foreach ($this->configuration->getSections() as $section) {
 			$configuration .= $this->writeSection($section);
